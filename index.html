@@ -6,11 +6,28 @@
 <title>Ruta ITSON: ciclo de vida del software</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap">
 <style>
-:root{--ink:#14313a;--paper:#eef3f1;--card:#fff;--route:#e0104f;--muted:#4d6a72;--line:#c5d5d2;
+/* decoracion */
+body{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px}
+.logo::before{content:"📍 "}
+
+.hero::after{content:"";display:block;height:20px;margin-top:24px;max-width:420px;
+background:radial-gradient(circle at calc(100% - 10px) 50%,var(--route) 9px,transparent 10px),
+repeating-linear-gradient(90deg,var(--route) 0 12px,transparent 12px 22px) left center/calc(100% - 30px) 4px no-repeat}
+
+section>.wrap>h2::after{content:"";display:block;width:48px;height:4px;border-radius:2px;background:var(--route);margin-top:8px}
+
+.member,.panel,.quiz,.mapcard{box-shadow:0 2px 10px rgba(20,49,58,.08);transition:transform .2s,box-shadow .2s}
+.member:hover{transform:translateY(-4px);box-shadow:0 8px 18px rgba(20,49,58,.15)}
+.member:nth-child(even) .av{background:#2a7f8e}
+
+@supports (animation-timeline:view()){
+section>.wrap{animation:fadeUp both;animation-timeline:view();animation-range:entry 0% entry 40%}}
+:root{--ink:#14313a;--paper:#eef3f1;--card:#fff;--route:#2186da;--muted:#4d6a72;--line:#c5d5d2;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#e6f1ef;--paper:#0f1f24;--card:#172c33;--route:#ff4d80;--muted:#9fbcc3;--line:#2b4650}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#e6f1ef;--paper:#000000;--card:#172c33;--route:#ff4d80;--muted:#9fbcc3;--line:#2b4650}}
 :root[data-theme="dark"]{--ink:#e6f1ef;--paper:#0f1f24;--card:#172c33;--route:#ff4d80;--muted:#9fbcc3;--line:#2b4650}
-html{scroll-padding-top:60px}
+html{scroll-padding-top:60px;scroll-behavior:smooth;}
+@media (prefers-reduce-motion:reduce){html{scroll-behavior: auto;}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
 h1,h2,h3,h4{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0}
@@ -111,11 +128,11 @@ footer strong{color:var(--ink)}
 <h2>Integrantes</h2>
 <p class="sub">Cada persona cubrió un rol dentro del proyecto.</p>
 <div class="team">
-<div class="member"><div class="av">A</div><h4>Nombre 1</h4><p>Rol en el equipo</p></div>
-<div class="member"><div class="av">B</div><h4>Nombre 2</h4><p>Rol en el equipo</p></div>
-<div class="member"><div class="av">C</div><h4>Nombre 3</h4><p>Rol en el equipo</p></div>
-<div class="member"><div class="av">D</div><h4>Nombre 4</h4><p>Rol en el equipo</p></div>
-<div class="member"><div class="av">E</div><h4>Nombre 5</h4><p>Rol en el equipo</p></div>
+<div class="member"><div class="av">A</div><h4>Aldo Sanchez</h4><p>Programador</p></div>
+<div class="member"><div class="av">M</div><h4>Manuel Negrete</h4><p>Diseñador</p></div>
+<div class="member"><div class="av">U</div><h4>Ulises Torres</h4><p>Encargado de la Documentación</p></div>
+<div class="member"><div class="av">L</div><h4>Luis Perez</h4><p>Administrador de Proyecto</p></div>
+<div class="member"><div class="av">J</div><h4>Jesus Ortega</h4><p>Tester</p></div>
 </div>
 </div></section>
 
@@ -140,7 +157,7 @@ footer strong{color:var(--ink)}
 
 <section id="autoevaluacion"><div class="wrap">
 <h2>Autoevaluación</h2>
-<p class="sub">Vista previa interactiva. (En la entrega final puede ser un Google Form incrustado o quedarse así, hecho a la medida.)</p>
+<p class="sub">Ahora haremos una pequeñas autoevaluacion en base a lo visto y explicado.</p>
 <div class="quiz">
 <p class="q" id="qt"></p>
 <div class="opts" id="qo"></div>
@@ -184,27 +201,32 @@ var CAT = {
   aulas:{label:"Aulas",color:"#2c6fbb"},
   academico:{label:"Académico y biblioteca",color:"#e08f1e"},
   deportes:{label:"Deportes",color:"#1f8a5b"},
+  cafeteria:{label:"Recreativo",color:"#ff0000"},
   cultura:{label:"Cultura y laboratorios",color:"#8a3ab2"}
+  
 };
 var PUNTOS = [
- {n:"Edificio 100", c:"aulas", x:49.0, y:27.3, d:"Aulas de clase. Consulta aquí tu horario y busca tu salón asignado."},
- {n:"Edificio 200", c:"aulas", x:53.5, y:27.3, d:"Aulas. Edificio contiguo al Edificio 100."},
+ {n:"Edificio 100", c:"aulas", x:48.5, y:29.3, d:"Aulas de clase de la 100 a 110. Consulta aquí tu horario y busca tu salón asignado."},
+ {n:"Cafeteria", c:"cafeteria", x:40.5, y:37.3, d:"Aqui se encuentra la cafeteria, donde puedes descansar y comer."},
+ {n:"Edificio 200", c:"aulas", x:54.5, y:29.3, d:"Aqui encontraras: <br>-Movilidad Academica<br>-Matematicas<br>-Coordinacion LPS y idiomas<br>-Coordinacion de LDG y ARQ<br>-Formacion integral del alumno<br>-Servicios Generales<br>-Laboratorio de Lic. Enfermeria"},
  {n:"Coordinación de Deportes", c:"deportes", x:62.0, y:37.5, d:"Inscripción a equipos deportivos y préstamo de material."},
- {n:"Edificio 400", c:"aulas", x:17.7, y:49.1, d:"Aulas. A unos pasos del estacionamiento principal."},
+ {n:"Edificio 400", c:"aulas", x:30.7, y:49.1, d:"Aulas. A unos pasos del estacionamiento principal."},
  {n:"Edificio 500", c:"aulas", x:25.6, y:49.1, d:"Aulas, cerca de la biblioteca."},
- {n:"Biblioteca", c:"academico", x:32.9, y:50.0, d:"Préstamo de libros, salas de estudio y equipo de cómputo."},
- {n:"Edificio 300", c:"aulas", x:48.1, y:50.9, d:"Aulas y laboratorios, en el centro del campus."},
- {n:"Edificio 700", c:"aulas", x:53.6, y:51.8, d:"Aulas, uno de los edificios más retirados de la entrada."},
- {n:"CITEV", c:"academico", x:18.0, y:68.0, d:"Centro Integral de Tecnologías: vinculación y proyectos tecnológicos."},
- {n:"Laboratorio de Alimentos y Bebidas", c:"cultura", x:7.0, y:63.0, d:"Prácticas de la carrera de Ingeniería en Alimentos."},
- {n:"Difusión Cultural", c:"cultura", x:8.0, y:83.0, d:"Talleres artísticos y actividades culturales para estudiantes."},
- {n:"Auditorio", c:"academico", x:27.7, y:74.5, d:"Auditorio para eventos, conferencias y ceremonias del campus."},
+ {n:"CEDER", c:"academico", x:17.9, y:50.0, d:"Préstamo de libros, salas de estudio y equipo de cómputo."},
+ {n:"Biblioteca", c:"academico", x:35.9, y:50.0, d:"Préstamo de libros, salas de estudio y equipo de cómputo."},
+ {n:"CUM -Centro de Usos Multiples", c:"academico", x:41.9, y:50.0, d:"Préstamo de libros, salas de estudio y equipo de cómputo."},
+ {n:"Edificio 300", c:"aulas", x:47.1, y:50.9, d:"Aulas y laboratorios, en el centro del campus."},
+ {n:"Edificio 700", c:"aulas", x:52.0, y:51.8, d:"Aulas, uno de los edificios más retirados de la entrada."},
+ {n:"Difuncion Cultural", c:"academico", x:18.0, y:68.0, d:"Centro Integral de Tecnologías: vinculación y proyectos tecnológicos."},
+ {n:"Laboratorio de Alimentos y Bebidas", c:"cultura", x:10.0, y:64.0, d:"Prácticas de la carrera de Ingeniería en Alimentos."},
+ {n:"CEI-Centro de Estudios de Ingenieria", c:"aulas", x:8.0, y:83.0, d:"Aqui se encuentra la Cordinacion de IIS,IMAN,ISW,IME,IQ,MILC y El lab. de Ingenieria de software y Manufactura"},
+ {n:"CITEV", c:"academico", x:27.7, y:74.5, d:"Auditorio para eventos, conferencias y ceremonias del campus."},
  {n:"Canchas de tenis/pádel", c:"deportes", x:73.0, y:55.0, d:"Canchas para práctica deportiva de estudiantes."},
  {n:"Cancha de Voleibol de Playa", c:"deportes", x:62.4, y:57.6, d:"Espacio deportivo al aire libre, abierto para estudiantes."},
  {n:"Cancha de baloncesto", c:"deportes", x:79.2, y:69.5, d:"Espacio deportivo al aire libre, abierto para estudiantes."}
 ];
 var frame=document.getElementById('rm-frame'), info=document.getElementById('rm-info'), fbox=document.getElementById('rm-filtros');
-var active={aulas:1,academico:1,deportes:1,cultura:1};
+var active={aulas:1,academico:1,deportes:1,cultura:1,cafeteria:1};
 Object.keys(CAT).forEach(function(k){
   var b=document.createElement('button');
   b.className='fbtn'; b.type='button';
